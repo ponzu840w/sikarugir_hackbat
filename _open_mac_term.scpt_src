@@ -1,0 +1,30 @@
+(*
+osascript自身が持つSikarugirの環境変数をファイルに書き出す
+*)
+try
+  do shell script "export -p > /tmp/sikarugir_env_raw.sh"
+on error errMsg number errNum
+  display dialog "error@1 " & errNum & " " & errMsg
+  return
+end try
+
+(*
+このスクリプトの場所からヘルパースクリプトのパスを取得
+*)
+try
+  set myPathPosix to POSIX path of (path to me)
+  set myFolderPosix to (do shell script "dirname " & (quoted form of myPathPosix))
+  set helperScript to quoted form of (myFolderPosix & "/__open_mac_term.sh")
+  set commandToRun to "source " & helperScript
+on error errMsg number errNum
+  display dialog "error@2 " & errNum & " " & errMsg
+end try
+
+(*
+ターミナルを起動しヘルパースクリプトを実行
+*)
+tell application "Terminal"
+  activate
+  do script commandToRun
+end tell
+
