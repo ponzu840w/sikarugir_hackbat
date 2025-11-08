@@ -23,8 +23,32 @@ end try
 (*
 ターミナルを起動しヘルパースクリプトを実行
 *)
-tell application "Terminal"
-  activate
-  do script commandToRun
-end tell
-
+if application "Terminal" is running then
+  -- ターミナルがすでに実行中の場合
+  tell application "Terminal"
+    activate
+    -- 新しいタブを開く (Cmd+T)
+    tell application "System Events"
+      keystroke "t" using command down
+    end tell
+    delay 0.3
+    -- 新しく開いたタブ(アクティブなタブ)でコマンドを実行
+    do script commandToRun in selected tab of front window
+  end tell
+else
+  -- ターミナルの実行中インスタンスがない場合
+  try
+    do shell script "env -i open -a Terminal"
+    -- 起動が完了するまで少し待つ
+    delay 1.0
+    -- 起動した Terminal に do script を送る
+    tell application "Terminal"
+      activate
+      -- 起動時に開かれる最初のウィンドウ/タブで実行
+      -- do script commandToRun
+      do script commandToRun in front window
+    end tell
+  on error errMsg number errNum
+    display dialog "error@3 (open -a) " & errNum & " " & errMsg
+  end try
+end if
