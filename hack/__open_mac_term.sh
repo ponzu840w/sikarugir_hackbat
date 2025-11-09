@@ -88,5 +88,19 @@ printf "\n"
 # プロンプト
 export PS1="\[${WINE_COLOR}\](🍷${APP_NAME}.app)\[${RESET}\]${PS1}"
 
+# alias
+# 'wine' 'wineserver' 以外の実行可能ファイルは環境内に存在しない
+function wineboot()         { echo "You can't use this command in this env."; }
+function winetricks()       { echo "You can't use this command in this env."; }
+function winehelp()         { echo "You can't use this command in this env."; }
+function wine-preloader()   { echo "You can't use this command in this env."; }
+function wine64()           { echo "You can't use this command in this env."; }
+function wine64-preloader() { echo "You can't use this command in this env."; }
+alias winecfg='wine winecfg'
+alias winemine='wine winemine'
+alias wineconsole='wine cmd'
+alias winepath='wine winepath'
+alias winefile='wine winefile'
+
 cd "$HOME"
 

@@ -24,6 +24,8 @@ end try
 ターミナルを起動しヘルパースクリプトを実行
 *)
 if application "Terminal" is running then
+
+  (*
   -- ターミナルがすでに実行中の場合
   tell application "Terminal"
     activate
@@ -35,6 +37,17 @@ if application "Terminal" is running then
     -- 新しく開いたタブ(アクティブなタブ)でコマンドを実行
     do script commandToRun in selected tab of front window
   end tell
+  *)
+
+  try
+    tell application "Terminal"
+      activate
+      do script commandToRun
+    end tell
+  on error errMsg number errNum
+    display dialog "error@3 (open -a) " & errNum & " " & errMsg
+  end try
+
 else
   -- ターミナルの実行中インスタンスがない場合
   try
@@ -49,6 +62,6 @@ else
       do script commandToRun in front window
     end tell
   on error errMsg number errNum
-    display dialog "error@3 (open -a) " & errNum & " " & errMsg
+    display dialog "error@4 (open -a) " & errNum & " " & errMsg
   end try
 end if
