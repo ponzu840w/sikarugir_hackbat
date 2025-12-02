@@ -15,8 +15,8 @@ grep -v '^export PATH=' > "$FIXED_DUMP_FILE"
 source "$FIXED_DUMP_FILE"
 
 # WINEPREFIX から .app のパスを抽出
-# (WINEPREFIX が /.../Windows.app/Contents/... という形式であると仮定)
-SIKARUGIR_APP=$(echo "$WINEPREFIX" | grep -o '.*/Windows\.app')
+# (WINEPREFIX が /.../*.app/Contents/... という形式であると仮定)
+SIKARUGIR_APP=$(echo "$WINEPREFIX" | grep -o '.*/*\.app')
 
 if [ -z "$SIKARUGIR_APP" ]; then
     echo "ERROR: Could not determine SIKARUGIR_APP path from WINEPREFIX."
